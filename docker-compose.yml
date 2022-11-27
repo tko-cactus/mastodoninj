@@ -1,0 +1,25 @@
+version: '3.6'
+
+services:
+  app:
+#    image: arm64v8/eclipse-temurin:17-jre-jammy
+    container_name: mastodoninj
+    volumes:
+      - mutagen-volume:/mastodoninj
+    ports:
+      - "8080:8080"
+    tty: true
+    working_dir: /mastodoninj
+    build:
+      dockerfile: Dockerfile
+      target: ${JAVA_CONTAINER_BUILD_TARGET}
+
+volumes:
+  mutagen-volume:
+
+x-mutagen:
+  sync:
+    mutagen-volume:
+      mode: "two-way-resolved"
+      alpha: "."
+      beta: "volume://mutagen-volume"
